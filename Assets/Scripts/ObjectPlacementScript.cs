@@ -80,4 +80,9 @@ public class ObjectPlacementScript : MonoBehaviour
             }
         }
     }
+
+    public void DestroyHighlighter()
+    {
+        Destroy(currentHighlighter);
+    }
 }

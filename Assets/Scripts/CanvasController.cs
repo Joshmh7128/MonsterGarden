@@ -14,23 +14,11 @@ public class CanvasController : MonoBehaviour
     public bool inBuildMode;
     [SerializeField] ObjectPlacementScript objectPlacementScript;
 
-    public GameObject[] placeableObjectsGrassland;
-    public GameObject[] highlightObjectsGrassland;
-    public Button[] placeableButtonsGrassland;
-
     // Start is called before the first frame update
     void Start()
     {
         // setup our buttons
         buildButton.onClick.AddListener(ShowBuildPanel);
-
-        int i = -1;
-
-        foreach (Button button in placeableButtonsGrassland)
-        {
-            button.onClick.AddListener(delegate { SetPlaceableObjectGrassland(i); });
-            i += 1;
-        }
     }
 
     // Update is called once per frame
@@ -52,13 +40,7 @@ public class CanvasController : MonoBehaviour
     {
         // toggle build mode
         inBuildMode = !inBuildMode;
+        // set our object Placement Script to be in build mode
         objectPlacementScript.inBuildMode = inBuildMode;
-    }
-
-    void SetPlaceableObjectGrassland(int setObject)
-    {
-        // set the placeable object to the same value as the object's position in it's own array
-        objectPlacementScript.placeableObject = placeableObjectsGrassland[setObject];
-        objectPlacementScript.highlightObject = highlightObjectsGrassland[setObject];
     }
 }
