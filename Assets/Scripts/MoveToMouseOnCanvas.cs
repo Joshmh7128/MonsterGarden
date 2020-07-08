@@ -25,4 +25,10 @@ public class MoveToMouseOnCanvas : MonoBehaviour
         isUIOverlapping = false;
         objectPlacementScript.isUIOverlapping = isUIOverlapping;
     }
+
+    private void OnTriggerStay2D(Collider2D col)
+    {
+        isUIOverlapping = true;
+        objectPlacementScript.isUIOverlapping = isUIOverlapping;
+    }
 }
