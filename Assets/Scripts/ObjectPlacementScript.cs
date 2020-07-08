@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class ObjectPlacementScript : MonoBehaviour
 {
+    // objects
     public GameObject placeableObject;
     public GameObject highlightObject;
     public GameObject previousObject;
     public GameObject currentHighlighter;
+    // UI
     [SerializeField] private GameObject placementCursor;
+    // bools
     public bool inBuildMode;
+    public bool isUIOverlapping;
+    // canvas
+    [SerializeField] CanvasController canvasController; // MUST BE SET IN EDITOR OTHERWISE OBJECTS WILL NOT INSTANTIATE
 
     private void Start()
     {
@@ -46,7 +52,11 @@ public class ObjectPlacementScript : MonoBehaviour
                 previousObject = highlightObject;
             }
 
-            highlightObject.transform.position = placementCursor.transform.position;
+            // make sure our highlight object exists, and then move it to the cursor
+            if (highlightObject != null)
+            {
+                highlightObject.transform.position = placementCursor.transform.position;
+            }
         }
 
         if (inBuildMode == false)
@@ -72,11 +82,14 @@ public class ObjectPlacementScript : MonoBehaviour
             placementCursor.GetComponent<Renderer>().enabled = true;
         }
 
-        if (inBuildMode == true)
+        if ((inBuildMode == true) && (isUIOverlapping == false))
         {
+
             if (Input.GetMouseButtonDown(0))
             {
-                Instantiate(placeableObject, placementCursor.transform.position, Quaternion.identity);
+                // place the object
+                GameObject placedObject = Instantiate(placeableObject, placementCursor.transform.position, Quaternion.identity);
+                placedObject.GetComponent<PrefabClass>().canvasController = canvasController;
             }
         }
     }
