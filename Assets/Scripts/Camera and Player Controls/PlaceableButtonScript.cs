@@ -18,11 +18,14 @@ public class PlaceableButtonScript : MonoBehaviour
 
     void SetObject()
     {
-        // destroy current highlighter
-        objectPlacementScript.DestroyHighlighter();
+        // destroy current highlighter if it is not the same as ours
+        if (objectPlacementScript.highlightObject != highlightObject)
+        {
+            objectPlacementScript.DestroyHighlighter();
+        }
+
         // set our new selection
         objectPlacementScript.highlightObject = highlightObject;
         objectPlacementScript.placeableObject = placeableObject;
     }
-
 }

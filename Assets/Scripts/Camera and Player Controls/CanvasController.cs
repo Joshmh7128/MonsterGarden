@@ -18,7 +18,9 @@ public class CanvasController : MonoBehaviour
     // mouse variables
     public bool mousePressed;
 
+    // helper script holding
     [SerializeField] ObjectPlacementScript objectPlacementScript;
+    public ObjectTrackingClass objectTrackingClass; // !! must be set !!
 
     // Start is called before the first frame update
     void Start()

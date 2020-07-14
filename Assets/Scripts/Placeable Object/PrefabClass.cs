@@ -40,9 +40,10 @@ public class PrefabClass : MonoBehaviour
             if ((localBreakable == true) && (canvasController.mousePressed == true))
             {
                 canvasController.mousePressed = false;
+                // when we are destroyed, check the lists of the tracking object
+                canvasController.objectTrackingClass.StartCoroutine("WaitCheck");
                 Destroy(gameObject);
             }
         }
     }
-
 }
