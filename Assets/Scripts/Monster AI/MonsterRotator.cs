@@ -16,6 +16,6 @@ public class MonsterRotator : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.rotation = CameraLerper.transform.rotation;
+        //transform.rotation = CameraLerper.transform.rotation;
     }
 }
