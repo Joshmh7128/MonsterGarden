@@ -21,8 +21,10 @@ public class CameraOrbit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // set our camera positions
         this._xForm_Camera = this.transform;
         this._xForm_Parent = this.transform.parent;
+        _LocalRotation.y = 10;
     }
 
     // Update is called once per frame
@@ -42,7 +44,7 @@ public class CameraOrbit : MonoBehaviour
                 _LocalRotation.y -= Input.GetAxis("Mouse Y") * mouseSensitivity;
 
                 // Clamp y rotation to horizon so it doesn't flip at top
-                _LocalRotation.y = Mathf.Clamp(_LocalRotation.y, 0f, 90f);
+                _LocalRotation.y = Mathf.Clamp(_LocalRotation.y, 10f, 90f);
             }
 
             // Zooming input from our mouse scroll wheel
