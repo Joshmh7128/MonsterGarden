@@ -13,7 +13,7 @@ public class GrasslandSpawnerScript : MonoBehaviour
 
     void Start()
     {
-        objectTrackingClass = GameObject.Find("Object Tracking Manager").GetComponent<ObjectTrackingClass>();
+        objectTrackingClass = WorldManager.objectTrackingClass;
     }
 
     void DecideMonsters()

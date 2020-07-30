@@ -25,8 +25,7 @@ public class FeedingSpotClass : MonoBehaviour
     private void Start()
     {
         // find our tracker
-        objectTrackingClass = GameObject.Find("Object Tracking Manager").GetComponent<ObjectTrackingClass>();
-
+        objectTrackingClass = WorldManager.objectTrackingClass;
         // depending on our food type add ourselves to the list
         switch (feedingSpotType)
         {

@@ -1,23 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class DantlerAI : MonoBehaviour
+public class DantlerAI : ActionScript
 {
-    Stats monsterStats;
-    ActionScript actionScript;
-
-    private void Start()
+    private bool wasDisabled = false;
+    
+    public override void Start()
     {
-        monsterStats = gameObject.GetComponent<Stats>();
-        actionScript = WorldManager.actionScript;
+        base.Start();
         StartCoroutine(ChooseBehaviour());
+    }
+
+    void OnDisable()
+    {
+        if (!wasDisabled) wasDisabled = true;
+    }
+
+    void OnEnable()
+    {
+        if (wasDisabled) StartCoroutine(ChooseBehaviour()); // see if causes issue with start
     }
 
     private IEnumerator ChooseBehaviour()
     {
-        //while(this.gameObject.activeSelf) // *** could be an issue later when monsters aren't there at start (look into)
         while(true)
         {
             int i = Random.Range(0, 3);
@@ -25,15 +31,15 @@ public class DantlerAI : MonoBehaviour
             switch (i)
             {
                 case 0:
-                    yield return StartCoroutine(actionScript.Explore(this.gameObject, monsterStats));
+                    yield return StartCoroutine(Explore());
                     break;
 
                 case 1:
-                    yield return StartCoroutine(actionScript.Rest(this.gameObject, monsterStats));
+                    yield return StartCoroutine(Rest());
                     break;
 
                 case 2:
-                    yield return StartCoroutine(actionScript.Eat(this.gameObject, monsterStats));
+                    yield return StartCoroutine(Eat());
                     break;
             }
         }

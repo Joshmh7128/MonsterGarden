@@ -34,9 +34,13 @@ public class ObjectTrackingClass : MonoBehaviour
     public List<GameObject> plantEnclosedLivableSpotTracking = new List<GameObject>();
     public List<GameObject> plantElevatedLivableSpotTracking = new List<GameObject>();
 
+    [Header("Objects in Use Tracking")]
+    public HashSet<GameObject> objectsinUseTracking = new HashSet<GameObject>();
+
 
     public void Start()
     {
+        WorldManager.objectTrackingClass = this;
         // manually add our working lists so that we don't have any issues in runtime
 
         // feeding

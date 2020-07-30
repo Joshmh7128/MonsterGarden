@@ -22,7 +22,7 @@ public class GrasslandDeerAI : MonoBehaviour
         // set our Y
         startY = transform.position.y;
         // set our object tracking class
-        objectTrackingClass = GameObject.Find("Object Tracking Manager").GetComponent<ObjectTrackingClass>();
+        objectTrackingClass = WorldManager.objectTrackingClass;
         // start our AI up
         ChooseBehaviour();
     }

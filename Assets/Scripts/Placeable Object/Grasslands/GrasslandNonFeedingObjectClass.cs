@@ -29,7 +29,7 @@ public class GrasslandNonFeedingObjectClass : MonoBehaviour
     void Start()
     {
         // find our object tracking class
-        objectTrackingClass = GameObject.Find("Object Tracking Manager").GetComponent<ObjectTrackingClass>();
+        objectTrackingClass = WorldManager.objectTrackingClass;
         // add our obejct to the correct list
         switch (objectType)
         {

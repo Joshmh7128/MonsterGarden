@@ -202,9 +202,7 @@ GameObject:
   m_Component:
   - component: {fileID: 267530275166131963}
   - component: {fileID: 267530275166131962}
-  - component: {fileID: 267530275166131965}
-  - component: {fileID: 1743047208}
-  - component: {fileID: 1743047209}
+  - component: {fileID: 7164687848770541657}
   m_Layer: 0
   m_Name: Deer Monster
   m_TagString: Untagged
@@ -240,27 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c8e5d42a4e226e40ba5199da2cbc93b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &267530275166131965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 267530275166131964}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 185a34d29e6499540b79b6b197fa4eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectTrackingClass: {fileID: 0}
-  currentStatus: {fileID: 267530276431064448}
-  maxExploreBoundsX: 20
-  maxExploreBoundsZ: 20
-  startY: 0
-  movementSpeed: 1
-  targetPosition: {x: 0, y: 0, z: 0}
-  behaviourActive: 0
---- !u!114 &1743047208
+--- !u!114 &7164687848770541657
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -269,7 +247,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 267530275166131964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f48fc9a86104a4dc393f100ee703f5c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cef2da1158574e14943403071d9c323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objectTrackingClass: {fileID: 0}
@@ -284,18 +262,6 @@ MonoBehaviour:
   feedingSpotType: Grass
   restingSpotList: []
   feedingSpotList: []
---- !u!114 &1743047209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 267530275166131964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bae27e2c9f9242a5925dde9968cfb78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &267530276431064450
 GameObject:
   m_ObjectHideFlags: 0
