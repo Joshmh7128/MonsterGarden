@@ -43,9 +43,27 @@ public class HighlightObjectScript : MonoBehaviour
     private void OnTriggerEnter(Collider col)
     {
         // check the tag of an object that's been placed, if it's overlapping, set placing to false
-        if (col.CompareTag(""))
+        if (col.tag == "PlaceableObject")
         {
+            objectPlacementScript.isObjectOverlapping = true;
+        }
+    }
 
+    private void OnTriggerStay(Collider col)
+    {
+        // check the tag of an object that's been placed, if it's overlapping, set placing to false
+        if (col.tag == "PlaceableObject")
+        {
+            objectPlacementScript.isObjectOverlapping = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider col)
+    {
+        // check the tag of an object that's been placed, if it's overlapping, set placing to false
+        if (col.tag == "PlaceableObject")
+        {
+            objectPlacementScript.isObjectOverlapping = false;
         }
     }
 }

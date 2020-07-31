@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DantlerAIInherit : ActionScriptInherit
+public class DantlerAIInherit : ActionScript
 {
     public override void Start()
     {

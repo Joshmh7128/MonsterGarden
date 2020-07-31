@@ -41,6 +41,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6628691414688318869}
   - component: {fileID: 3493610173391712209}
+  - component: {fileID: 4395456382536715273}
+  - component: {fileID: 8837928008614814822}
   m_Layer: 0
   m_Name: Grass Tufts Highlight
   m_TagString: Untagged
@@ -56,7 +58,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6628691414688318890}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.279651, y: -0.000289917, z: -5.2729373}
+  m_LocalPosition: {x: -7.442857, y: -0.000289917, z: -10.828387}
   m_LocalScale: {x: 1.01, y: 1.01, z: 1.01}
   m_Children:
   - {fileID: 6628691416033400215}
@@ -85,6 +87,35 @@ MonoBehaviour:
   highlightCursor: {fileID: 0}
   objectPlacementScript: {fileID: 0}
   rot: 0
+--- !u!135 &4395456382536715273
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6628691414688318890}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.1733955
+  m_Center: {x: 0, y: 0, z: 0.019772453}
+--- !u!54 &8837928008614814822
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6628691414688318890}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6628691415778843489
 GameObject:
   m_ObjectHideFlags: 0
