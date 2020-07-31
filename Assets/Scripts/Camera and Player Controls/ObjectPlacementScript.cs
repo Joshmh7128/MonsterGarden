@@ -14,8 +14,11 @@ public class ObjectPlacementScript : MonoBehaviour
     // bools
     public bool inBuildMode;
     public bool isUIOverlapping;
+    public bool isObjectOverlapping;
     // canvas
     [SerializeField] CanvasController canvasController; // MUST BE SET IN EDITOR OTHERWISE OBJECTS WILL NOT INSTANTIATE
+    // transforms
+    public Transform highlightObejctTransform;
 
     private void Start()
     {
@@ -82,13 +85,14 @@ public class ObjectPlacementScript : MonoBehaviour
             placementCursor.GetComponent<Renderer>().enabled = true;
         }
 
+        // check to make sure there's no overlapping objects underneath the one we're trying to place
         if ((inBuildMode == true) && (isUIOverlapping == false))
         {
 
             if (Input.GetMouseButtonDown(0))
             {
                 // place the object
-                GameObject placedObject = Instantiate(placeableObject, placementCursor.transform.position, Quaternion.identity);
+                GameObject placedObject = Instantiate(placeableObject, highlightObejctTransform.position, highlightObejctTransform.rotation);
                 placedObject.GetComponent<PrefabClass>().canvasController = canvasController;
             }
         }
