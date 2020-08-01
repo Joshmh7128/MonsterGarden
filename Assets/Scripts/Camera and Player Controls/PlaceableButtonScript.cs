@@ -9,6 +9,7 @@ public class PlaceableButtonScript : MonoBehaviour
     [SerializeField] GameObject highlightObject;
     [SerializeField] GameObject placeableObject;
     [SerializeField] ObjectPlacementScript objectPlacementScript;
+    [SerializeField] CanvasController canvasController;
 
     // Start is called before the first frame update
     void Start()
@@ -27,5 +28,8 @@ public class PlaceableButtonScript : MonoBehaviour
         // set our new selection
         objectPlacementScript.highlightObject = highlightObject;
         objectPlacementScript.placeableObject = placeableObject;
+
+        // close the build panel
+        // canvasController.inBuildMode = false;
     }
 }

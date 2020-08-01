@@ -8,11 +8,14 @@ public class CanvasController : MonoBehaviour
     // our UI elements
     [SerializeField] Animator buildPanel;
     [SerializeField] Animator breakPanel;
+    [SerializeField] Animator buildButtonUI;
     [SerializeField] Button buildButton;
     [SerializeField] Button breakButton;
+    [SerializeField] Button clostPanelButton;
 
     // gameplay variables
     public bool inBuildMode;
+    public bool showBuildPanel;
     public bool inBreakMode;
 
     // mouse variables
@@ -28,6 +31,7 @@ public class CanvasController : MonoBehaviour
         // setup our buttons
         buildButton.onClick.AddListener(ShowBuildPanel);
         breakButton.onClick.AddListener(ToggleBreak);
+        clostPanelButton.onClick.AddListener(EscapeConstruction);
     }
 
     // Update is called once per frame
@@ -44,15 +48,22 @@ public class CanvasController : MonoBehaviour
             mousePressed = false;
         }
 
-
-        if (inBuildMode == true)
+        // check to see if esc is pressed to leave build mode or break mode
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            buildPanel.Play("Build Panel In");
+            EscapeConstruction();
         }
 
-        if (inBuildMode == false)
+        if (showBuildPanel == true)
+        {
+            buildPanel.Play("Build Panel In");
+            buildButtonUI.Play("BuildButtonOut");
+        }
+
+        if (showBuildPanel == false)
         {
             buildPanel.Play("Build Panel Out");
+            buildButtonUI.Play("BuildButtonIn");
         }
 
         if (inBreakMode == true)
@@ -69,22 +80,54 @@ public class CanvasController : MonoBehaviour
     // show our build panel
     void ShowBuildPanel()
     {
+        Debug.Log("Show Panel Requested");
         if (inBreakMode == false)
         {
             // toggle build mode
-            inBuildMode = !inBuildMode;
+            inBuildMode = true;
+            showBuildPanel = true;
             // set our object Placement Script to be in build mode
             objectPlacementScript.inBuildMode = inBuildMode;
         }
     }
 
+    void CloseBuildPanel()
+    {
+        showBuildPanel = false;
+    }
+
     void ToggleBreak()
     {
+        Debug.Log("Break Mode Toggle Requested");
         if (inBuildMode == false)
         {
             // toggle break mode
             inBreakMode = !inBreakMode;
             // set our orb cursor to break mode
+        }
+    }
+
+    void EscapeConstruction()
+    {
+        if (showBuildPanel == false)
+        {
+            inBuildMode = false;
+            showBuildPanel = false;
+            inBreakMode = false;
+            objectPlacementScript.inBuildMode = inBuildMode;
+        }
+
+        if (inBuildMode == true)
+        {
+            showBuildPanel = false;
+            inBreakMode = false;
+            objectPlacementScript.inBuildMode = inBuildMode;
+        }
+
+        if (inBreakMode == true)
+        {
+            inBreakMode = false;
+            objectPlacementScript.inBuildMode = inBuildMode;
         }
     }
 }
