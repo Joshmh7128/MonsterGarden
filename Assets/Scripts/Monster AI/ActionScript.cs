@@ -64,6 +64,7 @@ public class ActionScript : MonoBehaviour
             // move to resting spot
             yield return MoveTo();
             // rest 3 - 5 times, checking if the resting spot is there in between
+            currentStatus.text = "Resting";
             for (int i = 0; i< Random.Range(3,6); i++)
             {
                 if (targetRestSpot == null) // if spot has been deleted, start exploring
@@ -94,7 +95,7 @@ public class ActionScript : MonoBehaviour
             }
             // mark as in use
             objectTrackingClass.objectsinUseTracking.Add(targetFood);
-            Debug.Log(targetFood.name + " is in use by " + this.gameObject.name);
+            //Debug.Log(targetFood.name + " is in use by " + this.gameObject.name);
             // get food spot position and move to it
             targetPosition = new Vector3(targetFood.transform.position.x, transform.position.y, targetFood.transform.position.z);
             yield return StartCoroutine(MoveTo());
