@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 267530274748947456}
   - component: {fileID: 267530274748947459}
   - component: {fileID: 735338589999651699}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 267530274988691177}
   - component: {fileID: 267530274988691172}
   - component: {fileID: 267530274988691175}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 267530275166131963}
   - component: {fileID: 267530275166131962}
   - component: {fileID: 7164687848770541657}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Deer Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,16 +252,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectTrackingClass: {fileID: 0}
   currentStatus: {fileID: 267530276431064448}
+  movementSpeed: 1
+  behaviourActive: 0
+  widthOfAnimal: 1
+  home: {fileID: 0}
+  friendList: []
+  restingSpotType: Soft-Dry
+  feedingSpotType: Grass
   maxExploreBoundsX: 20
   maxExploreBoundsZ: 20
   startY: 0
-  movementSpeed: 1
   targetPosition: {x: 0, y: 0, z: 0}
-  behaviourActive: 0
-  restingSpotType: Soft-Dry
-  feedingSpotType: Grass
-  restingSpotList: []
-  feedingSpotList: []
 --- !u!1 &267530276431064450
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +274,7 @@ GameObject:
   - component: {fileID: 267530276431064451}
   - component: {fileID: 267530276431064449}
   - component: {fileID: 267530276431064448}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +352,7 @@ GameObject:
   - component: {fileID: 3513928615317198507}
   - component: {fileID: 6489742260242873900}
   - component: {fileID: 3903114790992385241}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
