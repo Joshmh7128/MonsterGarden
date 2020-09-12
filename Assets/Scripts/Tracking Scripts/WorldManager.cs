@@ -4,6 +4,8 @@ using UnityEngine;
 
 public static class WorldManager
 {
-    public static ActionScript actionScript;
+    // Static script to keep track of current Scene's stuff
     public static ObjectTrackingClass objectTrackingClass;
+    public static GameObject currentInfoManager;
+    public static AreaInfoScript currentAreaInfoScript;
 }
