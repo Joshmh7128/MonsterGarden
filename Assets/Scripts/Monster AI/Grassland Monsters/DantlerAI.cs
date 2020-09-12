@@ -5,12 +5,11 @@ using JM.LinqFaster;
 
 public class DantlerAI : ActionScript
 {
-    // statuses of actions that shouldn't be interrupted by other actions // ** changed around as needed
-    private List<string> uninterruptableActions = new List<string>{"Eating", "Resting", "Finding Resting Spot", "Finding Food", "Herding", "Leading Herd"};
-    
     public override void Start()
     {
         base.Start();
+        // statuses of actions that shouldn't be interrupted by other actions // ** changed around as needed
+        uninterruptableActions = new List<string>{"Eating", "Resting", "Finding Resting Spot", "Finding Food", "Herding", "Leading Herd"};
         StartCoroutine(ChooseBehaviour());
     }
 
@@ -43,7 +42,7 @@ public class DantlerAI : ActionScript
                 case 2:
                     yield return Eat();
                     break;
-                case 3:
+                case 3: // ** Herding
                     yield return new WaitForEndOfFrame();
                     Debug.Log(this.gameObject.name);
                     List<GameObject> followerList = new List<GameObject>(); // monsters following this monster
@@ -59,13 +58,35 @@ public class DantlerAI : ActionScript
                     }
                     yield return Herding(followerList);
                     break;
-                case 4:
-                    yield return new WaitForEndOfFrame();
-                    // todo: 
-                    List<GameObject> tempGameObjectList = friendList.WhereF(x => !uninterruptableActions.Contains(x.GetComponent<ActionScript>().currentStatus.text));
-                    GameObject enemyToFight = tempGameObjectList[Random.Range(0, tempGameObjectList.Count)];
-                    enemyToFight.GetComponent<ActionScript>().StopAllCoroutines();
+                case 4: // ** Seeking Fight
+
+                    /*yield return new WaitForEndOfFrame();
+                    // todo: expensive!!!!!!! too many getcomponents!!!!!!!!!!
+                    List<GameObject> temp = InterruptableMonsters(new List<GameObject>(areaInfoScript.MonsterList.Keys));
+                    GameObject enemyToFight = temp[Random.Range(0, temp.Count)];
+                    areaInfoScript.MonsterList[enemyToFight].StopAllCoroutines();
                     yield return GeneralTurfDispute(enemyToFight);
+                    break;
+                    */
+                    // ** temp = InterruptableMonsters(new List<GameObject>(areaInfoScript.MonsterList.Keys));
+                    if (home != null)
+                    {
+                        /*
+                        1) Get Monsters within radius (overlap sphere with layer)
+                        2) Choose random monster (will be the collider) and get the game object
+                        3) Stop that monsters coroutines
+                        4) Start the turf dispute
+                        */
+                    }
+                    else
+                    {
+                        /*
+                        1) Get list of monsters who have a home that you can live in
+                        2) Choose random monster from list
+                        3) Stop that monsters coroutines
+                        4) Start the turf dispute
+                        */
+                    }
                     break;
             }
         }

@@ -29,6 +29,8 @@ public class ActionScript : MonoBehaviour
     [SerializeField] protected float startY; // our Y for logging // todo: change around what relys on this once heights can change
     [SerializeField] protected Vector3 targetPosition; // where are we headed?
     protected float minDistBetweenHerdAnimals; // based on width of animal to avoid overlapping
+    protected AreaInfoScript areaInfoScript;
+    protected List<string> uninterruptableActions;
     
 
     public virtual void Start()
@@ -40,6 +42,8 @@ public class ActionScript : MonoBehaviour
         minDistBetweenHerdAnimals = widthOfAnimal/Mathf.Sqrt(2);
         if (restingSpotType == "Soft-Dry") restingSpotList = objectTrackingClass.softDryRestingSpotList; // todo: make good
         if (feedingSpotType == "Grass") feedingSpotList = objectTrackingClass.grassFeedingSpotList;
+        areaInfoScript = WorldManager.currentAreaInfoScript;
+        areaInfoScript.MonsterList.Add(this.gameObject, this);
     }
 
     // explore
@@ -100,7 +104,7 @@ public class ActionScript : MonoBehaviour
         // we're finding food
         // Debug.Log(gameObject.name + " starting to eat");
         List<FeedingSpotClass> tempList = feedingSpotList.WhereF(x => !objectTrackingClass.objectsinUseTracking.Contains(x.gameObject) && x.hasFood);
-        if (tempList.Count > 0)
+        if (tempList != null && tempList.Count > 0)
         {
             // get food spot
             currentStatus.text = "Finding Food";
@@ -170,6 +174,7 @@ public class ActionScript : MonoBehaviour
 
     protected IEnumerator Herding(List<GameObject> herdingFollowers)
     {
+        // todo: make sure position isnt on top of objects
         if (herdingFollowers.Count != 0)
         {    
             // List of coroutines currently taking place within this method, used to make sure the monsters wait for the other monsters to reach certain positions
@@ -228,11 +233,15 @@ public class ActionScript : MonoBehaviour
         }
     }
 
-    protected IEnumerator GeneralTurfDispute(GameObject enemy) // TODO: do it
+    
+    protected IEnumerator TurfDispute(GameObject enemy) // TODO: do it
     {
         yield return 0;
         // Do actions then...
         // Restart Choose Behavior by disabling/enabling
+        // todo: make sure turf war doesn't start on top of objects
+        targetPosition = new Vector3(Random.Range(-transform.position.x+5, transform.position.x+5), startY, Random.Range(-transform.position.z+5, transform.position.z+5));
+
         enemy.SetActive(false);
         enemy.SetActive(true);
     }
@@ -269,6 +278,11 @@ public class ActionScript : MonoBehaviour
     void OnDisable()
     {
         if (!wasDisabled) wasDisabled = true;
+    }
+
+    protected List<GameObject> InterruptableMonsters(List<GameObject> list)
+    {
+        return list.WhereF(x => !areaInfoScript.MonsterList[x].uninterruptableActions.Contains(areaInfoScript.MonsterList[x].currentStatus.text));
     }
 
 
