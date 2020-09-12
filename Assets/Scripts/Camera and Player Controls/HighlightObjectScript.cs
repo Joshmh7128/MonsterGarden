@@ -7,6 +7,7 @@ public class HighlightObjectScript : MonoBehaviour
     [SerializeField] Transform highlightCursor;
     [SerializeField] ObjectPlacementScript objectPlacementScript;
     [SerializeField] float rot = 0; // our rotation
+    [SerializeField] GameObject noPlaceIndicator;
 
     // start
     private void Start()
@@ -43,9 +44,33 @@ public class HighlightObjectScript : MonoBehaviour
     private void OnTriggerEnter(Collider col)
     {
         // check the tag of an object that's been placed, if it's overlapping, set placing to false
-        if (col.CompareTag(""))
+        if (col.tag == "PlaceableObject")
         {
+            objectPlacementScript.isObjectOverlapping = true;
+            noPlaceIndicator.SetActive(true);
+        }
+    }
 
+    private void OnTriggerStay(Collider col)
+    {
+        // check the tag of an object that's been placed, if it's overlapping, set placing to false
+        if (col.tag == "PlaceableObject")
+        {
+            objectPlacementScript.isObjectOverlapping = true;
+            if (noPlaceIndicator.activeSelf == false)
+            {
+                noPlaceIndicator.SetActive(true);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider col)
+    {
+        // check the tag of an object that's been placed, if it's overlapping, set placing to false
+        if (col.tag == "PlaceableObject")
+        {
+            objectPlacementScript.isObjectOverlapping = false;
+            noPlaceIndicator.SetActive(false);
         }
     }
 }

@@ -86,9 +86,8 @@ public class ObjectPlacementScript : MonoBehaviour
         }
 
         // check to make sure there's no overlapping objects underneath the one we're trying to place
-        if ((inBuildMode == true) && (isUIOverlapping == false))
+        if ((inBuildMode == true) && (isUIOverlapping == false) && (isObjectOverlapping == false))
         {
-
             if (Input.GetMouseButtonDown(0))
             {
                 // place the object
