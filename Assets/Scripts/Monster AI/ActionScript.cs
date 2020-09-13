@@ -18,10 +18,12 @@ public class ActionScript : MonoBehaviour
     [SerializeField] protected float widthOfAnimal; // width of animal // todo: make sure works well with rotating
     [SerializeField] protected GameObject home; // claimed home of animal
     [SerializeField] protected List<GameObject> friendList = new List<GameObject>(3);
-    [SerializeField] protected string restingSpotType; // example: "Soft-Dry"
+     public string restingSpotType; // example: "Soft-Dry"
     [SerializeField] protected string feedingSpotType; // example: "Grass"
     protected List<GameObject> restingSpotList; // list of resting spots pulling from
     protected List<FeedingSpotClass> feedingSpotList; // list of feeding spots pulling from
+    [SerializeField] protected int powerNumber; // higher number, higher chance of winning
+    [SerializeField] protected int aggressionPercent; // whole number out of 100; // ** TEMPORARY THING!!!
 
     // ** Movement/Herding Stats
     [SerializeField] protected float maxExploreBoundsX; // max X explore?
@@ -30,7 +32,7 @@ public class ActionScript : MonoBehaviour
     [SerializeField] protected Vector3 targetPosition; // where are we headed?
     protected float minDistBetweenHerdAnimals; // based on width of animal to avoid overlapping
     protected AreaInfoScript areaInfoScript;
-    protected List<string> uninterruptableActions;
+    public List<string> uninterruptableActions;
     
 
     public virtual void Start()
@@ -172,9 +174,21 @@ public class ActionScript : MonoBehaviour
         friendList.Remove(friend);
     }
 
-    protected IEnumerator Herding(List<GameObject> herdingFollowers)
+    protected IEnumerator Herding()
     {
         // todo: make sure position isnt on top of objects
+        yield return new WaitForEndOfFrame();
+        List<GameObject> herdingFollowers = new List<GameObject>(); // monsters following this monster
+        foreach(GameObject go in friendList) // ** change to be other monsters outside of friendlist maybe?
+        {
+            ActionScript temp = areaInfoScript.MonsterList[go];
+            if (!temp.uninterruptableActions.Contains(temp.currentStatus.text))
+            {
+                herdingFollowers.Add(go);
+                temp.currentStatus.text = "Herding";
+                temp.StopCurrentCoroutines();
+            }
+        }
         if (herdingFollowers.Count != 0)
         {    
             // List of coroutines currently taking place within this method, used to make sure the monsters wait for the other monsters to reach certain positions
@@ -234,14 +248,82 @@ public class ActionScript : MonoBehaviour
     }
 
     
-    protected IEnumerator TurfDispute(GameObject enemy) // TODO: do it
+    protected IEnumerator TurfDispute()
     {
-        yield return 0;
-        // Do actions then...
-        // Restart Choose Behavior by disabling/enabling
         // todo: make sure turf war doesn't start on top of objects
-        targetPosition = new Vector3(Random.Range(-transform.position.x+5, transform.position.x+5), startY, Random.Range(-transform.position.z+5, transform.position.z+5));
 
+        // Choose an enemy -------------------------------------
+        GameObject enemy;
+        bool lookingForHome = false; // fighting for home?
+        if (home != null)
+        {
+            List<Collider> monstersCloseBy = new List<Collider>(Physics.OverlapSphere(
+                new Vector3(transform.position.x, startY, transform.position.z), maxExploreBoundsX/3, 1<<8));
+            // Sees what monsters are around in a sphere of 1/3 the size of walkable area in area
+            if (monstersCloseBy != null && monstersCloseBy.Count > 0) // if monsters around
+            {
+                enemy = monstersCloseBy[Random.Range(0,monstersCloseBy.Count)].gameObject; // choose a random monster
+            }
+            else // if no monsters around, exit action
+            {
+                yield break;
+            }
+        }
+        else
+        {
+            List<GameObject> temp = new List<GameObject>(areaInfoScript.MonsterList.Keys).WhereF(
+                x => areaInfoScript.MonsterList[x].restingSpotType == restingSpotType); // if monster has same house type as you
+            if (temp != null && temp.Count > 0)
+            {
+                enemy = temp[Random.Range(0,temp.Count)]; // get random enemy of monster has same house type
+                lookingForHome = true;
+            }
+            else // if no monsters around, exit action
+            {
+                yield break;
+            }
+        }
+        ActionScript enemyActionScript = areaInfoScript.MonsterList[enemy];
+        enemyActionScript.currentStatus.text = "Getting Fought";
+        currentStatus.text = "Fighting";
+        enemyActionScript.StopAllCoroutines();
+        // -------------------------------------------------------------------
+
+        // Walk over to at least 2 distance away from the monster // ** edit if needs to be move exact for animation purposes
+        while (Vector3.Distance(gameObject.transform.position, targetPosition) > 2)
+        {
+            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, movementSpeed * Time.deltaTime);
+            yield return 0;
+        }
+
+        // Action Time
+        if (lookingForHome)
+        {
+            yield return new WaitForSeconds(5); // ** placeholder for animation of fighting
+            float chanceOfWinning = powerNumber / (enemyActionScript.powerNumber + powerNumber);
+            if (Random.Range(0f,1f) <= chanceOfWinning) // if won, steal home
+            {
+                home = enemyActionScript.home;
+                enemyActionScript.home = null;
+            }
+            else // if lost
+            {
+                // Maybe be bummed for a little bit?
+            }
+        }
+        else
+        {
+            if (Random.Range(0f,1f) <= (aggressionPercent / 100))
+            {
+                yield return new WaitForSeconds(5); // ** placeholder for animation of fighting
+            }
+            else
+            {
+                yield return new WaitForSeconds(3); // ** do animation of this animal trying to fight and that enemy walking away
+            }
+        }
+
+        // Restart Choose Behavior by disabling/enabling
         enemy.SetActive(false);
         enemy.SetActive(true);
     }
