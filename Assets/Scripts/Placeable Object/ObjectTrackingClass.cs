@@ -36,11 +36,12 @@ public class ObjectTrackingClass : MonoBehaviour
 
     [Header("Objects in Use Tracking")]
     public HashSet<GameObject> objectsinUseTracking = new HashSet<GameObject>();
+    public Dictionary<GameObject, GameObject> claimedHomes = new Dictionary<GameObject, GameObject>(); // Key: Home, Value: Monster
 
 
     public void Start()
     {
-        WorldManager.objectTrackingClass = this;
+        WorldManager.objectTrackingClass = this; // TODO: FIX
         // manually add our working lists so that we don't have any issues in runtime
 
         // feeding

@@ -16,7 +16,7 @@ public class ActionScript : MonoBehaviour
     [SerializeField] protected float movementSpeed; // how fast can we move?
     [SerializeField] protected bool behaviourActive; // is our behaviour active?
     [SerializeField] protected float widthOfAnimal; // width of animal // todo: make sure works well with rotating
-    [SerializeField] protected GameObject home; // claimed home of animal
+    [SerializeField] protected GameObject home = null; // claimed home of animal
     [SerializeField] protected List<GameObject> friendList = new List<GameObject>(3);
      public string restingSpotType; // example: "Soft-Dry"
     [SerializeField] protected string feedingSpotType; // example: "Grass"
@@ -24,6 +24,9 @@ public class ActionScript : MonoBehaviour
     protected List<FeedingSpotClass> feedingSpotList; // list of feeding spots pulling from
     [SerializeField] protected int powerNumber; // higher number, higher chance of winning
     [SerializeField] protected int aggressionPercent; // whole number out of 100; // ** TEMPORARY THING!!!
+    protected bool ateOrRestedOnce = false;
+    protected int happiness; // TODO: set up
+    protected bool interested; // TODO: set up
 
     // ** Movement/Herding Stats
     [SerializeField] protected float maxExploreBoundsX; // max X explore?
@@ -94,10 +97,30 @@ public class ActionScript : MonoBehaviour
             }
             // unmark as in use
             if (targetRestSpot != null) objectTrackingClass.objectsinUseTracking.Remove(targetRestSpot);
+            if (!ateOrRestedOnce)
+            {
+                ateOrRestedOnce = true;
+                yield return LookForHome();
+            }
         }
         else
         {
             Debug.Log("All resting spots in use");
+        }
+    }
+
+    protected IEnumerator RestAtHome()
+    {
+        yield return MoveTo(this.gameObject, targetPosition);
+        // rest 3 - 5 times, checking if the resting spot is there in between
+        currentStatus.text = "Resting";
+        for (int i = 0; i< Random.Range(3,6); i++)
+        {
+            if (home == null) // if spot has been deleted, start exploring
+            {
+                yield break;
+            }
+            yield return new WaitForSeconds(5);
         }
     }
 
@@ -129,6 +152,11 @@ public class ActionScript : MonoBehaviour
                 yield return new WaitForSeconds(Random.Range(5, 10));
                 // unmark as in use
                 if (targetFood != null) objectTrackingClass.objectsinUseTracking.Remove(targetFood);
+                if (!ateOrRestedOnce)
+                {
+                    ateOrRestedOnce = true;
+                    yield return LookForHome();
+                }
             }
             else // if the food is gone start exploring
             {
@@ -146,7 +174,7 @@ public class ActionScript : MonoBehaviour
         while (Vector3.Distance(gameObject.transform.position, targetPosition) > 0.000001)
         {
             gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, movementSpeed * Time.deltaTime);
-            yield return 0;
+            yield return null;
         }
         yield return true;
     }
@@ -155,7 +183,7 @@ public class ActionScript : MonoBehaviour
     // ** If certain requirements are met; get what they are
     protected void ClaimHome(GameObject claimedHome)
     {
-        objectTrackingClass.objectsinUseTracking.Add(claimedHome);
+        objectTrackingClass.claimedHomes[claimedHome] = this.gameObject;
         home = claimedHome;
     }
 
@@ -172,6 +200,20 @@ public class ActionScript : MonoBehaviour
     protected void RemoveFriend(GameObject friend)
     {
         friendList.Remove(friend);
+    }
+    
+    protected IEnumerator LookForHome()
+    {
+        yield return null;
+        List<GameObject> tempList = restingSpotList.WhereF(x => !objectTrackingClass.claimedHomes.ContainsKey(x));
+        GameObject newHome = tempList[Random.Range(0, tempList.Count)];
+        ClaimHome(newHome); // ******* delay issues? two monsters going for same home issue? 
+        while (objectTrackingClass.objectsinUseTracking.Contains(newHome))
+        {
+            yield return null;
+        }
+        objectTrackingClass.objectsinUseTracking.Add(newHome);
+        yield return RestAtHome();
     }
 
     protected IEnumerator Herding()
@@ -293,7 +335,7 @@ public class ActionScript : MonoBehaviour
         while (Vector3.Distance(gameObject.transform.position, targetPosition) > 2)
         {
             gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, movementSpeed * Time.deltaTime);
-            yield return 0;
+            yield return null;
         }
 
         // Action Time
@@ -303,8 +345,7 @@ public class ActionScript : MonoBehaviour
             float chanceOfWinning = powerNumber / (enemyActionScript.powerNumber + powerNumber);
             if (Random.Range(0f,1f) <= chanceOfWinning) // if won, steal home
             {
-                home = enemyActionScript.home;
-                enemyActionScript.home = null;
+                ClaimHome(enemyActionScript.home);
             }
             else // if lost
             {
@@ -409,15 +450,15 @@ public class ActionScript : MonoBehaviour
             {
                 currTime += Time.deltaTime;
                 transform.position = Vector3.Lerp(transform.position, targetPosition, currTime/movementIncrement); // (currtime * speed) / distance
-                yield return 0;
+                yield return null;
             }*/ /*
             while (Vector3.Distance(transform.position, targetPosition) > 0.000001) // go until in the middle of hex
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
-                yield return 0;
+                yield return null;
             }
         }
-        yield return 0;
+        yield return null;
     }
 
     protected IEnumerator Hop() // has a lottle bounce to it :V
@@ -443,6 +484,6 @@ public class ActionScript : MonoBehaviour
         {
             // go to ground
         }
-        yield return 0;
+        yield return null;
     } */
 }

@@ -36,7 +36,14 @@ public class DantlerAI : ActionScript
                     break;
 
                 case 1:
-                    yield return Rest();
+                    if (home != null)
+                    {
+                        yield return RestAtHome();
+                    }
+                    else
+                    {
+                        yield return Rest();
+                    }
                     break;
 
                 case 2:
@@ -50,5 +57,20 @@ public class DantlerAI : ActionScript
                     break;
             }
         }
+    }
+    
+    void CheckRequirements() // todo: see if best way to do this but feels good
+    {
+        // ** Claiming Home after eating/resting after arriving is within the Eating/Resting scripts
+        if (home == null && happiness < 1)
+        {
+            LeaveGarden();
+        }
+        // if no home
+            // if rested or ate once and a home available
+                // ClaimHome
+            // if no home available FIGHT FOR HOME
+        // if home has no home due to removal, never claiming one, loses home in turf dispute, etc. and happiness is less than 1
+            // Leave garden
     }
 }
