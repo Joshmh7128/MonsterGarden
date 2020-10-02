@@ -302,6 +302,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterSelectionHighlight: {fileID: 1295824971726665763}
   monsterPanelCanvas: {fileID: 267530274748947457}
+  canToggle: 0
+  ourAI: {fileID: 7164687848770541657}
 --- !u!136 &2518103369244432278
 CapsuleCollider:
   m_ObjectHideFlags: 0

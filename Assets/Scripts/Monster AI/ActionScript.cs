@@ -13,7 +13,7 @@ public class ActionScript : MonoBehaviour
     // ** Monster Info
     [SerializeField] public Text currentStatus; // what is the current status of the deer?
     protected bool wasDisabled = false; // check to see if animal was disabled then enabled
-    [SerializeField] protected float movementSpeed; // how fast can we move?
+    public float movementSpeed; // how fast can we move?
     [SerializeField] protected bool behaviourActive; // is our behaviour active?
     [SerializeField] protected float widthOfAnimal; // width of animal // todo: make sure works well with rotating
     [SerializeField] protected GameObject home = null; // claimed home of animal

@@ -8,6 +8,7 @@ public class MonsterLocalUIManager : MonoBehaviour
     [SerializeField] MeshRenderer monsterSelectionHighlight;
     [SerializeField] Canvas monsterPanelCanvas;
     [SerializeField] bool canToggle;
+    [SerializeField] ActionScript ourAI;
 
     private void Start()
     {
@@ -31,18 +32,15 @@ public class MonsterLocalUIManager : MonoBehaviour
             // while the cursor is over our monster, make the highlight appear
             monsterSelectionHighlight.enabled = true;
             canToggle = true;
+            // set our monster's movement speed to 0 so that the player can access their panel
+            ourAI.movementSpeed = 0;
         }
     }
 
     private void OnTriggerStay(Collider col)
     {
-        // if the player clicks, toggle the UI panel
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Toggling Monster Display");
-            ToggleDisplay();
-            canToggle = true;
-        }
+        canToggle = true;
+        ourAI.movementSpeed = 0;
     }
 
     private void OnTriggerExit(Collider col)
@@ -51,6 +49,7 @@ public class MonsterLocalUIManager : MonoBehaviour
         {
             monsterSelectionHighlight.enabled = false;
             canToggle = false;
+            ourAI.movementSpeed = 1;
         }
     }
     

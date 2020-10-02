@@ -8056,7 +8056,7 @@ MonoBehaviour:
   breakButtonUI: {fileID: 1756016620}
   buildButton: {fileID: 893219941}
   breakButton: {fileID: 1756016616}
-  clostPanelButton: {fileID: 1926566823}
+  closePanelButton: {fileID: 1926566823}
   inBuildMode: 0
   showBuildPanel: 0
   inBreakMode: 0
@@ -27250,6 +27250,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Deer Monster (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 267530275166131964, guid: 402f2100965702948aa7c3b3c73fff30,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7164687848770541657, guid: 402f2100965702948aa7c3b3c73fff30,
         type: 3}
@@ -48305,6 +48310,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Deer Monster (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 267530275166131964, guid: 402f2100965702948aa7c3b3c73fff30,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7164687848770541657, guid: 402f2100965702948aa7c3b3c73fff30,
         type: 3}
       propertyPath: friendList.Array.size
@@ -53309,6 +53319,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Deer Monster (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 267530275166131964, guid: 402f2100965702948aa7c3b3c73fff30,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7164687848770541657, guid: 402f2100965702948aa7c3b3c73fff30,
         type: 3}
