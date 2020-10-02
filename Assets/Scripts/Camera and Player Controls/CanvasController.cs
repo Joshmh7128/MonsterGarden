@@ -9,6 +9,7 @@ public class CanvasController : MonoBehaviour
     [SerializeField] Animator buildPanel;
     [SerializeField] Animator breakPanel;
     [SerializeField] Animator buildButtonUI;
+    [SerializeField] Animator breakButtonUI;
     [SerializeField] Button buildButton;
     [SerializeField] Button breakButton;
     [SerializeField] Button clostPanelButton;
@@ -49,7 +50,7 @@ public class CanvasController : MonoBehaviour
         }
 
         // check to see if esc is pressed to leave build mode or break mode
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if ((Input.GetKeyDown(KeyCode.Escape)) || (Input.GetMouseButtonDown(1)))
         {
             EscapeConstruction();
         }
@@ -58,22 +59,26 @@ public class CanvasController : MonoBehaviour
         {
             buildPanel.Play("Build Panel In");
             buildButtonUI.Play("BuildButtonOut");
+            breakButtonUI.Play("BreakButtonOut");
         }
 
         if (showBuildPanel == false)
         {
             buildPanel.Play("Build Panel Out");
-            buildButtonUI.Play("BuildButtonIn");
+            inBuildMode = false;
         }
 
         if (inBreakMode == true)
         {
             breakPanel.Play("Break Panel In");
+            buildButtonUI.Play("BuildButtonOut");
         }
 
-        if (inBreakMode == false)
+        if ((inBreakMode == false) && (showBuildPanel == false))
         {
             breakPanel.Play("Break Panel Out");
+            buildButtonUI.Play("BuildButtonIn");
+            breakButtonUI.Play("BreakButtonIn");
         }
     }
 
@@ -94,6 +99,9 @@ public class CanvasController : MonoBehaviour
     void CloseBuildPanel()
     {
         showBuildPanel = false;
+        inBuildMode = false;
+        // set our object Placement Script to be in build mode
+        objectPlacementScript.inBuildMode = inBuildMode;
     }
 
     void ToggleBreak()
@@ -120,7 +128,7 @@ public class CanvasController : MonoBehaviour
         if (inBuildMode == true)
         {
             showBuildPanel = false;
-            inBreakMode = false;
+            inBuildMode = false;
             objectPlacementScript.inBuildMode = inBuildMode;
         }
 
