@@ -12,7 +12,7 @@ public class CanvasController : MonoBehaviour
     [SerializeField] Animator breakButtonUI;
     [SerializeField] Button buildButton;
     [SerializeField] Button breakButton;
-    [SerializeField] Button clostPanelButton;
+    [SerializeField] Button closePanelButton;
 
     // gameplay variables
     public bool inBuildMode;
@@ -32,7 +32,7 @@ public class CanvasController : MonoBehaviour
         // setup our buttons
         buildButton.onClick.AddListener(ShowBuildPanel);
         breakButton.onClick.AddListener(ToggleBreak);
-        clostPanelButton.onClick.AddListener(EscapeConstruction);
+        closePanelButton.onClick.AddListener(EscapeConstruction);
     }
 
     // Update is called once per frame
