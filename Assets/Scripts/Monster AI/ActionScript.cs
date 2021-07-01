@@ -234,7 +234,7 @@ public class ActionScript : MonoBehaviour
         if (herdingFollowers.Count != 0)
         {    
             // List of coroutines currently taking place within this method, used to make sure the monsters wait for the other monsters to reach certain positions
-            List<CoroutineWithData> waitList = new List<CoroutineWithData>();
+            List<Coroutine> corList = new List<Coroutine>();
             // List of 4 positions in a square around the lead monster
             List<Vector3> posList = new List<Vector3>()
             {
@@ -253,26 +253,26 @@ public class ActionScript : MonoBehaviour
                 // since its a random spot in a sphere, need to fix y
                 lerpCirclePosition.y = transform.position.y;
                 // add coroutine to waitlist so the monsters wait until they are in herd position
-                waitList.Add(new CoroutineWithData(this, MoveTo(follower, lerpCirclePosition)));
+                corList.Add(StartCoroutine(MoveTo(follower, lerpCirclePosition)));
                 posList.RemoveAt(0);
             }
-            foreach(CoroutineWithData c in waitList) // wait until all monsters are in herd position // todo: see if the whole coroutine with data can be improved
+            foreach(Coroutine cor in corList) // wait until all monsters are in herd position
             {
-                yield return new WaitUntil(() => c.done);
+                yield return cor;
             }
-            waitList.Clear();
+            corList.Clear();
             // get random spot to travel as a pack to (explore together)
             targetPosition = new Vector3(Random.Range(-maxExploreBoundsX, maxExploreBoundsX), startY, Random.Range(-maxExploreBoundsZ, maxExploreBoundsZ));
             yield return new WaitForSeconds(1);
             // make monsters wait until they get to the randomly chosen spot ---
             foreach(GameObject follower in herdingFollowers)
             {
-                waitList.Add(new CoroutineWithData(this, MoveTo(follower, follower.transform.position + targetPosition - transform.position)));
+                corList.Add(StartCoroutine(MoveTo(follower, follower.transform.position + targetPosition - transform.position)));
             }
-            waitList.Add(new CoroutineWithData(this, MoveTo(this.gameObject, targetPosition)));
-            foreach(CoroutineWithData c in waitList)
+            corList.Add(StartCoroutine(MoveTo(this.gameObject, targetPosition)));
+            foreach(Coroutine cor in corList)
             {
-                yield return new WaitUntil(() => c.done);
+                yield return cor;
             }
             yield return new WaitForSeconds(2); // ** edit timing as needed
             // -------------------------------------------------------------------
@@ -367,30 +367,6 @@ public class ActionScript : MonoBehaviour
         // Restart Choose Behavior by disabling/enabling
         enemy.SetActive(false);
         enemy.SetActive(true);
-    }
-
-
-    public class CoroutineWithData // https://answers.unity.com/questions/24640/how-do-i-return-a-value-from-a-coroutine.html
-    {
-        public Coroutine coroutine { get; private set; }
-        public IEnumerator target;
-        public bool done;
-
-        public CoroutineWithData(MonoBehaviour owner, IEnumerator target)
-        {
-            this.target = target;
-            this.coroutine = owner.StartCoroutine(Run());
-        }
-
-        private IEnumerator Run()
-        {
-            done = false;
-            while(target.MoveNext())
-            {
-                yield return target.Current;
-            }
-        done = true;
-        }
     }
 
     public void StopCurrentCoroutines()
